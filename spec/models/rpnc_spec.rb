@@ -96,12 +96,18 @@ describe RpnCalculator do
       @rpnc.tick("-")
       @rpnc.tick("-")
       @rpnc.tick("/")
-      expect(@rpnc.last_error).to eq "Cannot divide by zero."
+      expect(@rpnc.last_error).to eq RpnCalculator::Errors::DIVISION_BY_ZERO
     end
 
     it "should handle unrecognized input" do
       @rpnc.tick(" &&&&&&&&&&&&&&&&&&&&&&&")
-      expect(@rpnc.last_error).to eq "Unrecognized input:  &&&&&&&&&&&&&&&&&&&&&&&"
+      expect(@rpnc.last_error).to eq (RpnCalculator::Errors::UNRECOGNZIED_INPUT % " &&&&&&&&&&&&&&&&&&&&&&&")
+    end
+
+    it "should recognize premature operator invocation" do
+      @rpnc.tick("4")
+      @rpnc.tick("/")
+      expect(@rpnc.last_error).to eq RpnCalculator::Errors::PREMATURE_OPERATOR
     end
   end
 end

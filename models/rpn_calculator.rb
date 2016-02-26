@@ -1,5 +1,12 @@
 class RpnCalculator
 
+  module Errors
+    PREMATURE_OPERATOR = "Cannot invoke an operator without at least two operands on the RPN Calculator stack."
+    DIVISION_BY_ZERO = "Cannot divide by zero."
+    UNRECOGNZIED_INPUT = "Unrecognized input: %s"
+    OPERATOR_NOT_IMPLEMENTED = "Programming error: Operator not implemented %s."
+  end
+
   attr_accessor :last_error
 
   def initialize
@@ -26,7 +33,7 @@ class RpnCalculator
       @stack.push(_clean(n))
     elsif ["*", "+", "-", "/"].include?(i)
       if @stack.length < 2
-        self.last_error = "Cannot invoke an operator without at least two operands on the RPN Calculator stack."
+        self.last_error = Errors::PREMATURE_OPERATOR
       else
         r = @stack.pop
         l = @stack.pop
@@ -36,13 +43,13 @@ class RpnCalculator
             when "-"; l - r
             when "/"
               if r == 0
-                self.last_error = "Cannot divide by zero."
+                self.last_error = Errors::DIVISION_BY_ZERO
                 nil
               else
                 l.to_f / r.to_f
               end
             else
-              self.last_error = "Programming error: Operator not implemented #{i}."
+              self.last_error = (Errors::OPERATOR_NOT_IMPLEMENTED % i)
               nil
             end
 
@@ -53,7 +60,7 @@ class RpnCalculator
         end
       end
     else
-      self.last_error = "Unrecognized input: #{i}"
+      self.last_error = (Errors::UNRECOGNZIED_INPUT % i)
     end
   end
 
