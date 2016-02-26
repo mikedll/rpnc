@@ -47,4 +47,34 @@ describe RpnCalculator do
     @rpnc.tick("/")
     expect(@rpnc.top).to eq 15.2
   end
+
+  it "should use floating point division" do
+    @rpnc.tick("3")
+    @rpnc.tick("2")
+    @rpnc.tick("/")
+    expect(@rpnc.top).to eq 1.5
+  end
+
+  it "tolerate leading and trailing whitespace" do
+    @rpnc.tick("  6   ")
+    @rpnc.tick("4   ")
+    @rpnc.tick("  -2")
+    @rpnc.tick("/")
+    @rpnc.tick("+")
+    expect(@rpnc.top).to eq 4
+  end
+
+  it "support decimal inputs" do
+    @rpnc.tick("4.4")
+    @rpnc.tick("-2.3")
+    @rpnc.tick("*")
+    expect(@rpnc.top).to eq -10.12
+  end
+
+  it "should truncate results when possible" do
+    @rpnc.tick("4.0")
+    @rpnc.tick("2.0")
+    @rpnc.tick("/")
+    expect(@rpnc.top.to_s).to eq "2"
+  end
 end
