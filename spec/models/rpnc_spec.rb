@@ -86,4 +86,22 @@ describe RpnCalculator do
     @rpnc.tick("/")
     expect(@rpnc.top).to eq 3.33
   end
+
+  context "error handling" do
+    it "should handle division by zero" do
+      @rpnc.tick("1")
+      @rpnc.tick("3")
+      @rpnc.tick("4")
+      @rpnc.tick("1")
+      @rpnc.tick("-")
+      @rpnc.tick("-")
+      @rpnc.tick("/")
+      expect(@rpnc.last_error).to eq "Cannot divide by zero."
+    end
+
+    it "should handle unrecognized input" do
+      @rpnc.tick(" &&&&&&&&&&&&&&&&&&&&&&&")
+      expect(@rpnc.last_error).to eq "Unrecognized input:  &&&&&&&&&&&&&&&&&&&&&&&"
+    end
+  end
 end
