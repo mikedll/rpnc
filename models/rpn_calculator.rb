@@ -12,7 +12,7 @@ class RpnCalculator
   # based on input i.
   #
   def tick(i)
-    if i =~ /\A(\d+(\.\d+)?)\z/
+    if i =~ /\A(-?\d+(\.\d+)?)\z/
       @stack.push($1.to_f)
     elsif ["*", "+", "-", "/"].include?(i)
       if @stack.length < 2
@@ -38,7 +38,6 @@ class RpnCalculator
         if n.nil?
           @crashed = true
         else
-          puts n
           @stack.push(n)
         end
 

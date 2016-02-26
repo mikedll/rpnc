@@ -12,13 +12,7 @@ You can run the specs:
 
 # Todos
 
-handle repeating decimal results
-
 identify where we would place advanced parsing of floating point inputs
 
-consider suppressing output from the model
-
-add a prompt
-
-
+consider suppressing direct error output from the model
 

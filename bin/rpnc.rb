@@ -4,6 +4,9 @@ $LOAD_PATH << File.dirname(__FILE__) + "/../"
 require 'models/rpn_calculator'
 
 rpnc = RpnCalculator.new
+
+PROMPT = "> "
+$stdout.write PROMPT
 i = $stdin.gets
 while i
   i.chomp!
@@ -13,5 +16,7 @@ while i
 
   break if rpnc.crashed?
 
+  puts rpnc.top
+  $stdout.write PROMPT
   i = $stdin.gets
 end
