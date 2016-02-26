@@ -2,7 +2,7 @@ require 'models/rpn_calculator'
 
 describe RpnCalculator do
   before do
-      @rpnc = RpnCalculator.new
+    @rpnc = RpnCalculator.new
   end
 
   it "should support arithmetic operators" do
