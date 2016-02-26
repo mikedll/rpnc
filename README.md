@@ -1,9 +1,9 @@
 
-# Usage:
+# Usage
 
     ./bin/rpnc
 
-# Development:
+# Development
 
 You can run the specs:
 
