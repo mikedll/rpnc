@@ -14,7 +14,7 @@ class RpnCalculator
   def tick(i)
     if i =~ /\A\s*(-?\d+(\.\d+)?)\s*\z/
       n = $1.to_f
-      @stack.push(n == n.truncate ? n.truncate : n)
+      @stack.push(_clean(n))
     elsif ["*", "+", "-", "/"].include?(i)
       if @stack.length < 2
         puts "Cannot invoke an operator without at least two operands on the RPN Calculator stack."
@@ -40,7 +40,7 @@ class RpnCalculator
         if n.nil?
           @crashed = true
         else
-          @stack.push(n == n.truncate ? n.truncate : n)
+          @stack.push(_clean(n))
         end
       end
     else
@@ -50,6 +50,12 @@ class RpnCalculator
 
   def top
     @stack.last
+  end
+
+  private
+
+  def _clean(n)
+    n == n.truncate ? n.truncate : n.round(2)
   end
 
 

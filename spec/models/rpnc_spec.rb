@@ -77,4 +77,13 @@ describe RpnCalculator do
     @rpnc.tick("/")
     expect(@rpnc.top.to_s).to eq "2"
   end
+
+  it "should round to two points of precision with non-integer results" do
+    @rpnc.tick("10.00001")
+    expect(@rpnc.top).to eq 10.0
+
+    @rpnc.tick("3")
+    @rpnc.tick("/")
+    expect(@rpnc.top).to eq 3.33
+  end
 end
