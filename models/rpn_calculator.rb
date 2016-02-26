@@ -13,7 +13,12 @@ class RpnCalculator
   #
   def tick(i)
     if i =~ /\A\s*(-?\d+(\.\d+)?)\s*\z/
+
+      # We may use BigDecimal or advanced decimal fraction
+      # parsing at this point of the code in the future,
+      # as needed by the application's requirements.
       n = $1.to_f
+
       @stack.push(_clean(n))
     elsif ["*", "+", "-", "/"].include?(i)
       if @stack.length < 2
