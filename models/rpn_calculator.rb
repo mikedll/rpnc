@@ -1,5 +1,7 @@
 class RpnCalculator
 
+  attr_accessor :last_error
+
   def initialize
     @crashed = false
     @stack = []
@@ -12,6 +14,8 @@ class RpnCalculator
   # based on input i.
   #
   def tick(i)
+    self.last_error = nil
+
     if i =~ /\A\s*(-?\d+(\.\d+)?)\s*\z/
 
       # We may use BigDecimal or advanced decimal fraction
@@ -22,7 +26,7 @@ class RpnCalculator
       @stack.push(_clean(n))
     elsif ["*", "+", "-", "/"].include?(i)
       if @stack.length < 2
-        puts "Cannot invoke an operator without at least two operands on the RPN Calculator stack."
+        self.last_error = "Cannot invoke an operator without at least two operands on the RPN Calculator stack."
       else
         r = @stack.pop
         l = @stack.pop
@@ -32,13 +36,13 @@ class RpnCalculator
             when "-"; l - r
             when "/"
               if r == 0
-                puts "Cannot divide by zero."
+                self.last_error = "Cannot divide by zero."
                 nil
               else
                 l.to_f / r.to_f
               end
             else
-              puts "Programming error: Operator not implemented #{i}."
+              self.last_error = "Programming error: Operator not implemented #{i}."
               nil
             end
 
@@ -49,7 +53,7 @@ class RpnCalculator
         end
       end
     else
-      puts "Unrecognized input: #{i}"
+      self.last_error = "Unrecognized input: #{i}"
     end
   end
 

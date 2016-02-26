@@ -13,7 +13,7 @@ while i
   break if i == "q"
 
   rpnc.tick(i)
-
+  $stdout.puts rpnc.last_error if !rpnc.last_error.nil?
   break if rpnc.crashed?
 
   puts rpnc.top
